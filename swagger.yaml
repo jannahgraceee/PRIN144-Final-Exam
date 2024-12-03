@@ -10,7 +10,7 @@ externalDocs:
   url: swagger.json
   description: swagger.json
 servers:
-  - url: https://finalsprin144.vercel.app/
+  - url: https://localhost:8000
     variables: {}
     description: Production
 paths:

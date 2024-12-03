@@ -2,31 +2,31 @@ require('dotenv').config();
 const { sql } = require('@vercel/postgres');
 const express = require('express')
 const app = express();
-module.exports = app;
+
 
 const fs = require('fs')
 const swaggerUi = require('swagger-ui-express');
 const YAML = require('yaml')
+//terminal: npm i swagger-ui-express@4.6.2 yaml
 
 const file  =  fs.readFileSync(process.cwd() + '/swagger.yaml', 'utf8')
 const swaggerDocument = YAML.parse(file)
 const CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css"
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, {
-	customCss:
-		'.swagger-ui .opblock .opblock-summary-path-description-wrapper { align-items: center; display: flex; flex-wrap: wrap; gap: 0 10px; padding: 0 10px; width: 100%; }',
-	customCssUrl: CSS_URL,
+    customCss:
+        '.swagger-ui .opblock .opblock-summary-path-description-wrapper { align-items: center; display: flex; flex-wrap: wrap; gap: 0 10px; padding: 0 10px; width: 100%; }',
+    customCssUrl: CSS_URL,
 }));
-
 
 // enable middleware to parse body of Content-type: application/json
 app.use(express.json());
 
-const PORT = 4000;
+// const PORT = 4000;
 
-app.listen(process.env.PORT || PORT, () => {
-    console.log(`Server is listening on port ${PORT}`)
-})
+// app.listen(process.env.PORT || PORT, () => {
+//     console.log(`Server is listening on port ${PORT}`)
+// })
 
 // const employees = [{ id: 1, firstName: 'Jannah', lastName: 'Claravall', position: 'Web Developer', department: 'IT', isWorkingFromHome: false}, { id: 2, firstName: 'Lovelie', lastName: 'Gaspar', position: 'Web Developer', department: 'IT', isWorkingFromHome: true},];
 // let employeeID = employees.length;
@@ -190,3 +190,6 @@ app.delete('/employees/:id', async (req, res) => {
         res.status(404).json();
     }
 });
+
+
+module.exports = app;
