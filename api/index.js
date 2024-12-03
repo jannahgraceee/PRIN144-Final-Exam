@@ -136,7 +136,7 @@ app.get('/employees/:id', async (req, res) => {
 });
 
 
-// http://localhost:4000/employees - { "name": "New Task" }
+//http://localhost:4000/employees - { "name": "New Task" }
 app.post('/employees', async (req, res) => {
     await sql`INSERT INTO Employees (firstName, lastName, empPosition, Department, isWorkingFromHome) VALUES
    (${req.body.firstName, req.body.lastName, req.body.position, req.body.department, req.body.isWorkingFromHome});`;
@@ -146,9 +146,18 @@ app.post('/employees', async (req, res) => {
         return res.status(400).json({ message: 'All fields are required' });
       }
 });
+// app.post('/employees', async (req, res) => {
+//     const { firstName, lastName, position, department, isWorkingFromHome } = req.body;
+//     const result = await sql`
+//         INSERT INTO Employees (firstName, lastName, empPosition, department, isWorkingFromHome) 
+//         VALUES (${firstName}, ${lastName}, ${position}, ${department}, ${isWorkingFromHome || false})
+//         RETURNING Id;
+//     `;
+//     res.status(201).json({ id: result.rows[0].id });
+// });
 
 
-// //http://localhost:4000/employees/1 - { "name": "Task 1 Updated",
+//http://localhost:4000/employees/1 - { "name": "Task 1 Updated",
 // "isWorkingFromHome" : true } | { "name": "Task 1 Updated" } | {
 //     "isWorkingFromHome":true
 // }
