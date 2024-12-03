@@ -3,22 +3,22 @@ const { sql } = require('@vercel/postgres');
 const express = require('express')
 const app = express();
 module.exports = app;
-/*
+
 const fs = require('fs')
 const swaggerUi = require('swagger-ui-express');
 const YAML = require('yaml')
-//terminal: npm i swagger-ui-express@4.6.2 yaml
 
 const file  =  fs.readFileSync(process.cwd() + '/swagger.yaml', 'utf8')
 const swaggerDocument = YAML.parse(file)
 const CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css"
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, {
-    customCss:
-        '.swagger-ui .opblock .opblock-summary-path-description-wrapper { align-items: center; display: flex; flex-wrap: wrap; gap: 0 10px; padding: 0 10px; width: 100%; }',
-    customCssUrl: CSS_URL,
+	customCss:
+		'.swagger-ui .opblock .opblock-summary-path-description-wrapper { align-items: center; display: flex; flex-wrap: wrap; gap: 0 10px; padding: 0 10px; width: 100%; }',
+	customCssUrl: CSS_URL,
 }));
-*/
+
+
 // enable middleware to parse body of Content-type: application/json
 app.use(express.json());
 
@@ -137,24 +137,24 @@ app.get('/employees/:id', async (req, res) => {
 
 
 //http://localhost:4000/employees - { "name": "New Task" }
-app.post('/employees', async (req, res) => {
-    await sql`INSERT INTO Employees (firstName, lastName, empPosition, Department, isWorkingFromHome) VALUES
-   (${req.body.firstName, req.body.lastName, req.body.position, req.body.department, req.body.isWorkingFromHome});`;
-    res.status(201).json();
-
-    if (!firstName || !lastName || !empPosition || !department || isWorkingFromHome === undefined) {
-        return res.status(400).json({ message: 'All fields are required' });
-      }
-});
 // app.post('/employees', async (req, res) => {
-//     const { firstName, lastName, position, department, isWorkingFromHome } = req.body;
-//     const result = await sql`
-//         INSERT INTO Employees (firstName, lastName, empPosition, department, isWorkingFromHome) 
-//         VALUES (${firstName}, ${lastName}, ${position}, ${department}, ${isWorkingFromHome || false})
-//         RETURNING Id;
-//     `;
-//     res.status(201).json({ id: result.rows[0].id });
+//     await sql`INSERT INTO Employees (firstName, lastName, empPosition, Department, isWorkingFromHome) VALUES
+//    (${req.body.firstName, req.body.lastName, req.body.position, req.body.department, req.body.isWorkingFromHome});`;
+//     res.status(201).json();
+
+//     if (!firstName || !lastName || !empPosition || !department || isWorkingFromHome === undefined) {
+//         return res.status(400).json({ message: 'All fields are required' });
+//       }
 // });
+app.post('/employees', async (req, res) => {
+    const { firstName, lastName, position, department, isWorkingFromHome } = req.body;
+    const result = await sql`
+        INSERT INTO Employees (firstName, lastName, empPosition, department, isWorkingFromHome) 
+        VALUES (${firstName}, ${lastName}, ${position}, ${department}, ${isWorkingFromHome || false})
+        RETURNING Id;
+    `;
+    res.status(201).json({ id: result.rows[0].id });
+});
 
 
 //http://localhost:4000/employees/1 - { "name": "Task 1 Updated",
